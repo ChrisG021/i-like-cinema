@@ -8,10 +8,10 @@ import "./style.css"
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-export default function Banner({BACKDROP_BASE_URL, popularMovies}) {
+export default function Banner({BACKDROP_BASE_URL, item}) {
   return (
     <div className="h-[600px] w-full rounded-4xl overflow-hidden relative">
-    {popularMovies&&(
+    {item&&(
       <Swiper
         spaceBetween={30}
         centeredSlides={true}
@@ -19,14 +19,11 @@ export default function Banner({BACKDROP_BASE_URL, popularMovies}) {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        pagination={{
-          clickable: false,
-        }}
         navigation={false}
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, ]}
         className="mySwiper"
       >
-        {popularMovies.map((movies)=>(
+        {item.map((movies)=>(
         <SwiperSlide className='swiper_slide'>
             <img className='object-cover w-full' src={`${BACKDROP_BASE_URL}${movies.backdrop_path}`}/>
             <div className='p-8 flex flex-col justify-between absolute -red-800 w-full h-full zindex-100'>
@@ -46,3 +43,4 @@ export default function Banner({BACKDROP_BASE_URL, popularMovies}) {
     </div>
   );
 }
+

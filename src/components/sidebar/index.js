@@ -14,7 +14,6 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
         const upComingData = await upComingResponse.json();
         
         setUpComingMovies(upComingData.results.slice(0,3));
-        console.log(upComingData.results);
         //popularData.results armazena o array com "20" objetos no caso os filmes populares
         
         }
