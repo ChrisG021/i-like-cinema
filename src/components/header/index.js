@@ -19,7 +19,7 @@ export default function Header(){
                     <img className="object-cover rounded-full"  src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1061959920.jpg?*" alt="foto do the rock"/>
                 </div>
                 {/* <UserCircle size={35}/> */}
-                <div className="flex flex-1 flex-col mr-2 w-full max-w-[90px]">
+                <div className="flex flex-1 flex-col mr-2 w-full max-w-[90px] hidden lg:flex">
                     <h3 className="text-sm truncate">isaqueSangley</h3>
                     <p className=" text-xs text-gray-400 truncate">Email</p>
                 </div>

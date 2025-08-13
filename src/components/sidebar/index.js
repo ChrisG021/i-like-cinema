@@ -1,5 +1,8 @@
 import React,{ useEffect, useState } from "react"
 import { House, Compass, Heart , User, Settings, PlaySquare} from "lucide-react"
+import './styles.css';
+
+
 export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
 
     const [ upComingMovies, setUpComingMovies] = useState([]);
@@ -43,31 +46,33 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
     );
 
     return(
-        <div className="rounded-4xl sidebar w-64 bg-gray-800 p-6 flex flex-col justify-between">
-            <div className="settings flex flex-col gap-8">
-                <header>
-                    <h1 className="px-2">I like cinema</h1>
-                </header>
-                <nav className="flex flex-col gap-4">
-                    <ul>
-                        <MenuItem icon={House} label={'Inicio'} active/>
-                        <MenuItem icon={Compass} label={'Explorar'} />
-                        <MenuItem icon={Heart} label={'Favoritos'} />
+        <div className="ml-10 rounded-4xl w-64 bg-gray-800  sticky top-[40px] h-[calc(100vh-80px)]  overflow-hidden hidden lg:flex
+        ">
+            <div className="sidebar-scroll flex flex-col justify-between  overflow-auto p-6 rounded-4xl  bg-gray-800 h-[calc(100vh-80px)] ">
+                <div className="settings flex flex-col gap-8">
+                    <header>
+                        <h1 className="px-2">I like cinema</h1>
+                    </header>
+                    <nav className="flex flex-col gap-4">
+                        <ul>
+                            <MenuItem icon={House} label={'Inicio'} active/>
+                            <MenuItem icon={Compass} label={'Explorar'} />
+                            <MenuItem icon={Heart} label={'Favoritos'} />
 
-                    </ul>
-                    
-                    <hr className=""/>
+                        </ul>
+                        
+                        <hr className=""/>
 
-                    <ul>
-                        <MenuItem icon={User} label={'Perfil'} />
-                        <MenuItem icon={Settings} label={'Configuração'} />
-                    </ul>
-                </nav>
-            </div>
-            <div className="upcoming">
-                { upComingMovies.map((item,index) => (
-                    <UpComingCard item={item} key={item.id}/>
-                ))}
+                        <ul>
+                            <MenuItem icon={Settings} label={'Configuração'} />
+                        </ul>
+                    </nav>
+                </div>
+                <div className="upcoming">
+                    { upComingMovies.map((item,index) => (
+                        <UpComingCard item={item} key={item.id}/>
+                    ))}
+                </div>
             </div>
         </div>
     );

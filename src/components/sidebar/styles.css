@@ -1,0 +1,13 @@
+.sidebar-scroll::-webkit-scrollbar{
+    width: 2px;
+    height: 20px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb{
+    background-color: #4b5563;
+    border-radius: 15px;
+}
+
+.sidebar-scroll{
+    box-sizing: border-box;
+}

@@ -1,6 +1,7 @@
 .swiper-movies{
     /* background-color: red; */
-    width: 100%;
+    /* width: 100%; */
+    flex:1;
     height: 300px;
     /* background-color: red; */
 }
@@ -9,10 +10,25 @@
     height:300px;
 }
 .swiper-slide-movies img{
-    width: 200px;
+   width: 200px;
     height: 300px;
     border-radius: 14px;
 }
+@media (max-width:1024px) {
+  .swiper-movies{
+    height: 200px;
+  }
+    .swiper-slide-movies{
+      width: 150px;
+      height:200px;
+  }
+  .swiper-slide-movies img{
+      width: 150px;
+      height:200px;
+  }
+}
+
+
 /* .swiper-slide-movies img {
   display: block;
   width: 100%;

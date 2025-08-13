@@ -3,6 +3,7 @@ import Banner from "@/components/banner";
 import Header from "@/components/header";
 import Movies from "@/components/movies";
 import Sidebar from "@/components/sidebar";
+import TabBar from "@/components/tabBar";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -17,18 +18,22 @@ export default function Home() {
   
   const[popularMovies, setPopularMovies] = useState([]);
   const[horrorMovies, setHorrorMovies] = useState([]);
+  const[ficcaoCientifica, setficcaoCientifica] = useState([]);
   const[nowPLayingMovies, setNowPlayingMovies] = useState([]);
   const [genre, setGenre] = useState([]);
 
 
+// =========fetch dos filmes==========
   useEffect( ()=>{
     fetchPopularData();
     fectchNowPLayingData();
-    fetchGenre();
     fetchHorrorMovies();
+    fetchFiccaoCientifica();
+    fetchGenre();
   },[]);
   //sem parametro, acionamento automatico qunado iniciar
     
+
   const fetchPopularData = async () =>{
     try {
       //url para acessar os filmes populares no caso
@@ -56,8 +61,6 @@ export default function Home() {
       console.error(e);
     }
   }
-
-  // const[ ]
 
   //================================agr tratar os generos para =======================================
   const fetchGenre = async () =>{
@@ -91,7 +94,8 @@ export default function Home() {
       genreNames:movie.genre_ids.map(genreId => genreMap[genreId]).filter(Boolean)
     }));
   }
-
+  
+// ============mudnça na estrutura dos filmes=======================
   useEffect(()=>{
     if (nowPLayingMovies.length > 0 && genre.length > 0 && !nowPLayingMovies[0]?.genreNames){
       setNowPlayingMovies(mapGenreIdsToNames(nowPLayingMovies,genre));
@@ -116,24 +120,46 @@ export default function Home() {
   }
  }
 
+  const fetchFiccaoCientifica = async () => {
+  try {
+    const results = [];
+    for (let i = 1 ; i <=3; i++) {
+        const ficcaoCientificaResponse = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=878&page=${i}`)
+        const ficcaoCientificaData = await ficcaoCientificaResponse.json();
+
+        results.push(...ficcaoCientificaData.results);
+    }
+    setficcaoCientifica(results);
+  } catch (error) {
+      console.error(error);
+  }
+ }
+
+//  const fetch
+
 
   return (
-    <div className="all-home min-h-screen bg-gray-900 text-white flex p-10 gap-8">
+    <div className="all-home min-h-screen bg-gray-900 text-white flex py-5 lg:py-10 ">
 
       {/* tag criada no componets */}
       <Sidebar BASE_URL={BASE_URL} API_KEY={API_KEY} IMAGE_BASE_URL={IMAGE_BASE_URL}/>
-      <main className=" flex-1 flex flex-col gap-8  justify-center ">
-        <Header/>
-        <div className= "flex-1 flex flex-col max-w-[1600px] self-center gap-8 ">
-          <section className="flex flex-1 ">
+      <main className=" flex-1 flex flex-col lg:gap-8 gap-5  justify-center overflow-hidden">
+        <div className="px-5 lg:px-10">
+          <Header/>
+        </div>
+        <div className= "flex-1 flex flex-col max-w-[1600px] self-center gap-8 w-full">
+
+          <section className="flex flex-1 w-full  lg:px-10">
             <Banner BACKDROP_BASE_URL={BACKDROP_BASE_URL} item={nowPLayingMovies}/>
           </section>
-          <section className="">
+          <section className="flex flex-col relative gap-8 lg:pl-10 mb-20 lg:mb-0">
             <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={popularMovies} title='Filmes populares' />
             <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={horrorMovies} title='Filmes de terror' />
+            <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={ficcaoCientifica} title='Filmes de ficção científica' />
           </section>
         </div>
       </main>
+      <TabBar/> 
     </div>
   );
 }

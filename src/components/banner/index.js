@@ -10,7 +10,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 export default function Banner({BACKDROP_BASE_URL, item}) {
   return (
-    <div className="h-[600px] w-full rounded-4xl overflow-hidden relative">
+    <div className="h-[600px] w-full lg:rounded-4xl overflow-hidden relative">
     {item&&(
       <Swiper
         spaceBetween={30}
@@ -27,7 +27,7 @@ export default function Banner({BACKDROP_BASE_URL, item}) {
         <SwiperSlide className='swiper_slide'>
             <img className='object-cover w-full' src={`${BACKDROP_BASE_URL}${movies.backdrop_path}`}/>
             <div className='p-8 flex flex-col justify-between absolute -red-800 w-full h-full zindex-100'>
-                <div className='zindex'>
+                <div className='zindex '>
                     <span className='teste p-2 rounded-4xl'>🔥 Now popular</span>
                 </div>
                 <div className='flex flex-col max-w-150 gap-4 zindex'>
