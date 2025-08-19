@@ -27,8 +27,8 @@ export default function Banner({BACKDROP_BASE_URL, item}) {
         <SwiperSlide className='swiper_slide'>
             <img className='object-cover w-full' src={`${BACKDROP_BASE_URL}${movies.backdrop_path}`}/>
             <div className='p-8 flex flex-col justify-between absolute -red-800 w-full h-full zindex-100'>
-                <div className='zindex '>
-                    <span className='teste p-2 rounded-4xl'>🔥 Now popular</span>
+                <div className='zindex teste p-2 rounded-4xl '>
+                    <span className=''>🔥 Now popular</span>
                 </div>
                 <div className='flex flex-col max-w-150 gap-4 zindex'>
                     <h2 className='text-4xl font-bold'>{movies.title}</h2>

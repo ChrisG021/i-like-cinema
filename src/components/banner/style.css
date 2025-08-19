@@ -12,7 +12,8 @@
 }
 
 .teste {
-    background-color: rgba(0, 0, 0, 0.4);
+    width: fit-content;
+    background-color: rgba(0, 0, 0, 0.3);
     position: relative;
     backdrop-filter: blur(10);
 }

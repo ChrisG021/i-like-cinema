@@ -1,4 +1,4 @@
-import { Diameter } from "lucide-react";
+import { FaStar, FaPlay  } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -21,14 +21,42 @@ export default function Movies({IMAGE_BASE_URL, item, title}) {
                     className="swiper-movies  w-full pr-10"
                 >
                     {item.map((movies,index) =>(
-                        <SwiperSlide key={index} className={` swiper-slide-movies hover:cursor-pointer ${index===0?"pl-5 lg:pl-0 ":""} ${index===item.length-1?"pr-5 lg:pr-10":""}`}>
-                            <div>
-                                <img src={`${IMAGE_BASE_URL}/${movies.poster_path}`} />
-                            </div>
-                            <div>
-                                <p>{movies.genres}</p>
+                        <SwiperSlide key={index} className=" swiper-slide-movies" >
+                            {/* tecnica isaque */}
+                            <div className={`relative hover:cursor-pointer group`}>                                
+                                {/* grupo geral */}
+                                <div className="group-hover:scale-95 transition-all duration-500">
+                                    
+                                    <img src={`${IMAGE_BASE_URL}/${movies.poster_path}`} />
+                                    
+                                    {/* overlay */}
+                                    <div className="rounded-xl absolute  inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+
+                                    {/* componentes dentro do filme */}
+                                    <div className="opacity-0 group-hover:opacity-100 transition-all duration-500 w-full h-full abolute inset-0 ">
+                                        <div className="flex flex-row gap-2 px-2 py-1 rounded-4xl bg-black/30 backdrop-blur-md top-1 right-1 lg:top-3 lg:right-2 z-2 absolute">
+                                            <p className="text-sm font-bold">{movies.vote_average.toFixed(1)}</p>
+                                            <FaStar className="text-yellow-300"/>
+                                        </div>
+                                        <div className="text-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                            <FaPlay/>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
 
+                            {/* keywords */}
+                            <div>
+                                <p className={`${index===0?"pl-5 lg:pl-0 ":""} text-md text-white mt-2 `}>{movies.title}</p>
+                                <div className={`flex gap-1 mt-1 flex-wrap ${index===0?"pl-5 lg:pl-0 ":""}`}>
+                                    {movies?.genreNames?.map((genreName,index) =>(
+                                        <span className="bg-gray-800 rounded-xl text-sm px-2 py-1" key={index}>{genreName}</span>
+                                    ))}
+                                </div>
+                            </div>
+                            
                         </SwiperSlide>   
                     ))}
                 </Swiper>

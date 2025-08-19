@@ -1,19 +1,57 @@
-import { UserCircle,Bell, ChevronDown, Search, User, Divide } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
+import { use, useEffect, useState } from "react";
 
-export default function Header(){
+
+
+export default function Header({ menuItem, setMenuItem, API_KEY, BASE_URL, setResults, }){
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [searching, setSearching] = useState("");
+
+
+    useEffect(()=>{
+        if  ( searching.trim()==='' )  {
+            setResults([]);
+            return;
+        }
+
+        const timer = setTimeout(()=>{
+            fetch(`${BASE_URL}/search/${menuItem.value}?api_key=${API_KEY}&query=${searching}&include_adult=false`)
+            .then((res) => res.json())
+            .then((data) =>{
+                const sortedData = (data.results || []).sort((a,b)=>{
+                    const dateA = new Date(a.release_date||a.first_air_date||0);
+                    const dateB = new Date(b.release_date||b.first_air_date||0);
+                    return dateB-dateA;
+                })
+                console.log(sortedData);
+                setResults(sortedData);
+            }).catch((error)=>console.error(error))    
+        },500)
+        return () => clearTimeout(timer);
+
+    },[searching,menuItem.value])
+    
     return(
         <div className="flex justify-between items-center all-header gap-3 ">
-            <div className="gap-2  flex flex-row types bg-gray-800 rounded-4xl space-x-2 px-4 py-2 hover:cursor-pointer ">
-                <p>All</p>
-                <ChevronDown/>
+            <div className="relative">
+                <div onClick={()=>setMenuOpen(!menuOpen)} className="gap-2 cursor-pointer  flex flex-row types bg-gray-800 rounded-4xl space-x-2 px-4 py-2 hover:cursor-pointer ">
+                    <p>{menuItem.name}</p>
+                    <ChevronDown className={`${menuOpen?"rotate-180 transition-all duration-500":"transition-all duration-500"}`}/>
+                </div>
+                <div className={`absolute z-2 bg-gray-800 p-2 min-w-[100px] rounded-xl mt-1 transition-all origin-top duration-5000${menuOpen?"opacity-1 scale-100":"opacity-0 scale-0"}`}>
+                    <ul className="">
+                        {/* <li className="hover:bg-gray-700 px-2 py-1 rounded-xl " onClick={()=>setMenuItem({value:"",name:"Tudo"})}>Tudo</li> */}
+                        <li className={`cursor-pointer hover:bg-gray-700 px-2 py-1 rounded-xl ${menuItem.value==="tv"?"hidden":""}`}onClick={()=>{setMenuItem({value:"tv",name:"Séries"}); setMenuOpen(!menuOpen)}}>Séries</li>
+                        <li className={`cursor-pointer hover:bg-gray-700 px-2 py-1 rounded-xl ${menuItem.value==="movie"?"hidden":""}`} onClick={()=>{setMenuItem({value:"movie",name:"Filmes"}),setMenuOpen(!menuOpen)}}>Filmes</li>
+                    </ul>
+                </div>            
             </div>
             <div className="w-full  flex justify-between items-center px-4 py-2 rounded-4xl bg-gray-800 search-bar">
-                <input className="w-full outline-none" type="search" placeholder="Pesquisar"/>
+                {/* search */}
+                <input className="w-full outline-none" value={searching} onChange={(e)=>setSearching(e.target.value)} type="search"  placeholder="Pesquisar"/>
                 <Search size={20}/>
             </div>
-            <div className="bell bg-gray-800 p-3 rounded-4xl">
-                <Bell size={20}/>
-            </div>
+
             <div className="profile flex flex-1 flex-row items-center justify-between bg-gray-800 gap-2 p-[2px] rounded-full max-w-[150px]">
                 <div className="flex flex-1 min-w-10">
                     <img className="object-cover rounded-full"  src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1061959920.jpg?*" alt="foto do the rock"/>

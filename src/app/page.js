@@ -4,6 +4,7 @@ import Header from "@/components/header";
 import Movies from "@/components/movies";
 import Sidebar from "@/components/sidebar";
 import TabBar from "@/components/tabBar";
+import SearchResults from "@/components/searchResults";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
   const API_KEY = "9f44bb5cb496bc17bb97b5d2b65c7bc6";
 
   //url para mostra as imagens e backdrop
-  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w300';
   const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/original';
   
   const[popularMovies, setPopularMovies] = useState([]);
@@ -22,6 +23,8 @@ export default function Home() {
   const[nowPLayingMovies, setNowPlayingMovies] = useState([]);
   const [genre, setGenre] = useState([]);
 
+  const [menuItem, setMenuItem] = useState({value:"movie", name:"Filmes"});
+  const [results, setResults ] = useState([]);
 
 // =========fetch dos filmes==========
   useEffect( ()=>{
@@ -75,6 +78,36 @@ export default function Home() {
 
   }
   
+  const fetchHorrorMovies = async () => {
+    try {
+      const results = [];
+      for (let i = 1 ; i <=3; i++) {
+          const horrorMoviesResponse = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=27&page=${i}`)
+          const horrorMoviesData = await horrorMoviesResponse.json();
+
+          results.push(...horrorMoviesData.results);
+      }
+      setHorrorMovies(results);
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
+    const fetchFiccaoCientifica = async () => {
+    try {
+      const results = [];
+      for (let i = 1 ; i <=3; i++) {
+          const ficcaoCientificaResponse = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=878&page=${i}`)
+          const ficcaoCientificaData = await ficcaoCientificaResponse.json();
+
+          results.push(...ficcaoCientificaData.results);
+      }
+      setficcaoCientifica(results);
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
   const mapGenreIdsToNames = (movies, genres) =>{//reduce transforma array em objeto de busca
     const genreMap = genres.reduce((acc,genre) => {
         acc[genre.id] = genre.name;//acc[878] = "ficção cientifica"
@@ -95,45 +128,24 @@ export default function Home() {
     }));
   }
   
+
 // ============mudnça na estrutura dos filmes=======================
   useEffect(()=>{
     if (nowPLayingMovies.length > 0 && genre.length > 0 && !nowPLayingMovies[0]?.genreNames){
       setNowPlayingMovies(mapGenreIdsToNames(nowPLayingMovies,genre));
     }
     if( popularMovies.length > 0 && genre.length > 0 && !popularMovies[0]?.genreNames){
-      setPopularMovies(mapGenreIdsToNames(popularMovies,genre))
+      setPopularMovies(mapGenreIdsToNames(popularMovies,genre));
     }
-  },[genre])
-
- const fetchHorrorMovies = async () => {
-  try {
-    const results = [];
-    for (let i = 1 ; i <=3; i++) {
-        const horrorMoviesResponse = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=27&page=${i}`)
-        const horrorMoviesData = await horrorMoviesResponse.json();
-
-        results.push(...horrorMoviesData.results);
+    if (horrorMovies.length > 0 && genre.length > 0 && !horrorMovies[0]?.genreNames) {
+      console.log(mapGenreIdsToNames(horrorMovies,genre));
+      setHorrorMovies(mapGenreIdsToNames(horrorMovies,genre));
     }
-    setHorrorMovies(results);
-  } catch (error) {
-      console.error(error);
-  }
- }
-
-  const fetchFiccaoCientifica = async () => {
-  try {
-    const results = [];
-    for (let i = 1 ; i <=3; i++) {
-        const ficcaoCientificaResponse = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=878&page=${i}`)
-        const ficcaoCientificaData = await ficcaoCientificaResponse.json();
-
-        results.push(...ficcaoCientificaData.results);
+    if  (ficcaoCientifica.length > 0 && genre.length > 0 && !ficcaoCientifica[0]?.genreNames){
+      setficcaoCientifica(mapGenreIdsToNames(ficcaoCientifica,genre));
     }
-    setficcaoCientifica(results);
-  } catch (error) {
-      console.error(error);
-  }
- }
+  },[genre,horrorMovies,ficcaoCientifica])
+
 
 //  const fetch
 
@@ -145,19 +157,29 @@ export default function Home() {
       <Sidebar BASE_URL={BASE_URL} API_KEY={API_KEY} IMAGE_BASE_URL={IMAGE_BASE_URL}/>
       <main className=" flex-1 flex flex-col lg:gap-8 gap-5  justify-center overflow-hidden">
         <div className="px-5 lg:px-10">
-          <Header/>
+          <Header menuItem={menuItem} setMenuItem={setMenuItem} API_KEY={API_KEY} BASE_URL={BASE_URL} setResults={setResults} />
         </div>
-        <div className= "flex-1 flex flex-col max-w-[1600px] self-center gap-8 w-full">
+        {
+          // se vazio ele coloca os items padrões, se nao colocar os resultados
+          !results.length>0
+          ?
+          <div className= "flex-1 flex flex-col max-w-[1600px] self-center gap-8 w-full">
 
-          <section className="flex flex-1 w-full  lg:px-10">
-            <Banner BACKDROP_BASE_URL={BACKDROP_BASE_URL} item={nowPLayingMovies}/>
-          </section>
-          <section className="flex flex-col relative gap-8 lg:pl-10 mb-20 lg:mb-0">
-            <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={popularMovies} title='Filmes populares' />
-            <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={horrorMovies} title='Filmes de terror' />
-            <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={ficcaoCientifica} title='Filmes de ficção científica' />
-          </section>
-        </div>
+            <section className="flex flex-1 w-full  lg:px-10">
+              <Banner BACKDROP_BASE_URL={BACKDROP_BASE_URL} item={nowPLayingMovies}/>
+            </section>
+            <section className="flex flex-col relative gap-8 lg:pl-10 mb-20 lg:mb-0">
+              <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={popularMovies} title='Filmes populares' />
+              <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={horrorMovies} title='Filmes de terror' />
+              <Movies IMAGE_BASE_URL={IMAGE_BASE_URL} item={ficcaoCientifica} title='Filmes de ficção científica' />
+            </section>
+          </div>
+          :
+          <div className="flex-1 flex flex-col max-w-[1600px] self-center gap-8 w-full lg:px-10 ">
+            <SearchResults results={results} IMAGE_BASE_URL={IMAGE_BASE_URL}/>
+          </div>
+        }
+
       </main>
       <TabBar/> 
     </div>
