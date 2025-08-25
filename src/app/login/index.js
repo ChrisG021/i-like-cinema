@@ -54,7 +54,7 @@ export default function Login(){
 
     return (
     <>
-    <div className="relative w-screen h-screen bg-black flex items-center justify-center bg-gray-800">
+    <div className="relative w-screen h-screen bg-black flex items-center justify-center bg-gray-900">
             {/* div central */}
         <div className={`z-1 flex flex-col px-8 py-4 text-white bg-white/20 backdrop-blur w-[600px] transition-all duration-400 ${login?"h-[656px]":"h-[520px]"}  rounded-2xl absolute  bg-[linear-gradient(to_top,#475569,#101828,black_60%)] bg-cover shadow-xl overflow-hidden`}>
             <div className="flex justify-between mb-15">
