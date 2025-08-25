@@ -1,6 +1,7 @@
+import Link from "next/link";
 import React from "react";// :(
 import { FaPlay } from "react-icons/fa";
-export default function SearchResults({ results, IMAGE_BASE_URL }){
+export default function SearchResults({ results, IMAGE_BASE_URL ,menuItem }){
     return(
         
         <div className=" w-full  overflow-hidden relative grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
@@ -9,7 +10,7 @@ export default function SearchResults({ results, IMAGE_BASE_URL }){
             <>
             {
                 multi.poster_path!=null? 
-                    <div className="relative overflow-hidden group cursor-pointer">
+                    <Link href={`details/${menuItem.value}/${multi.id}`} className="relative overflow-hidden group cursor-pointer">
                         <div className="group-hover:scale-95 transition-all duration-500 opaccity-0">
                             {/* overlay */}
                             <div className="opacity-0 transition-all duration-500 group-hover:opacity-100">
@@ -20,7 +21,7 @@ export default function SearchResults({ results, IMAGE_BASE_URL }){
                             </div>
                         <img src={`${IMAGE_BASE_URL}/${multi.poster_path}`} className="rounded-xl w-[200px] h-[300px]"/>
                         </div>
-                    </div>:""
+                    </Link>:""
             }
             </>
         ))}

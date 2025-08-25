@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import "./style.css"
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import Link from 'next/link';
 
 export default function Banner({BACKDROP_BASE_URL, item}) {
   return (
@@ -33,7 +34,7 @@ export default function Banner({BACKDROP_BASE_URL, item}) {
                 <div className='flex flex-col max-w-150 gap-4 zindex'>
                     <h2 className='text-4xl font-bold'>{movies.title}</h2>
                     <p className='line-clamp-4'>{movies.overview}</p>
-                    <button className='flex flex-row w-fit bg-white text-black gap-4 px-4 py-2 rounded-4xl'>Saiba Mais <ArrowRight/></button>
+                    <Link href={`details/movie/${movies.id}`} className='flex flex-row w-fit bg-white text-black gap-4 px-4 py-2 rounded-4xl'>Saiba Mais <ArrowRight/></Link>
                 </div>
             </div>
         </SwiperSlide>

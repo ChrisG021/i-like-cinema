@@ -1,9 +1,10 @@
 import React,{ useEffect, useState } from "react"
 import { House, Compass, Heart , User, Settings, PlaySquare} from "lucide-react"
 import './styles.css';
+import Link from "next/link";
 
 
-export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
+export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL, setResults }){
 
     const [ upComingMovies, setUpComingMovies] = useState([]);
 
@@ -38,11 +39,11 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
         </div>
     );
 
-    const MenuItem = ({ icon:Icon, label, active = false }) => (
-        <div className={`flex items-center space-x-3 px-2 py-3 rounded-lg cursor-pointer transition-all ${active?'text-white':'text-gray-400 hover:text-white hover:bg-gray-800'}`}>
+    const MenuItem = ({ icon:Icon, label, active = false ,url="", f}) => (
+        <Link href={url} onClick={f?f:undefined}  className={`flex items-center space-x-3 px-2 py-3 rounded-lg cursor-pointer transition-all ${active?'text-white':'text-gray-400 hover:text-white hover:bg-gray-800'}`}>
             <Icon size ='20' />
             <span className="font-median">{label}</span>
-        </div>
+        </Link>
     );
 
     return(
@@ -55,7 +56,7 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
                     </header>
                     <nav className="flex flex-col gap-4">
                         <ul>
-                            <MenuItem icon={House} label={'Inicio'} active/>
+                            <MenuItem f={()=>setResults([])} url={`/`} icon={House} label={'Inicio'} active/>
                             <MenuItem icon={Compass} label={'Explorar'} />
                             <MenuItem icon={Heart} label={'Favoritos'} />
 
@@ -70,7 +71,9 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL }){
                 </div>
                 <div className="upcoming">
                     { upComingMovies.map((item,index) => (
-                        <UpComingCard item={item} key={item.id}/>
+                        <Link href={`/details/movie/${item.id}`}>
+                            <UpComingCard item={item} key={item.id}/>
+                        </Link>
                     ))}
                 </div>
             </div>

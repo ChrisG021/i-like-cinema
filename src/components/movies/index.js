@@ -1,3 +1,4 @@
+"use client"
 import { FaStar, FaPlay  } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,11 +8,10 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import './style.css';
 
-// import required modules
-import { Pagination } from 'swiper/modules';
+import Link from "next/link";
+export default function Movies({IMAGE_BASE_URL, item, title ,menuItem}) {
 
-export default function Movies({IMAGE_BASE_URL, item, title}) {
-   return(
+    return(
     <div className="relative w-full">
         <div className="flex flex-1 flex-col  ">
             <h2 className="px-5 lg:px-0 text-lg mb-2 font-bold ">{title}</h2>
@@ -23,7 +23,8 @@ export default function Movies({IMAGE_BASE_URL, item, title}) {
                     {item.map((movies,index) =>(
                         <SwiperSlide key={index} className=" swiper-slide-movies" >
                             {/* tecnica isaque */}
-                            <div className={`relative hover:cursor-pointer group`}>                                
+                        
+                            <Link href={`/details/${menuItem.value}/${movies.id}`} className={`relative hover:cursor-pointer group`}>                                
                                 {/* grupo geral */}
                                 <div className="group-hover:scale-95 transition-all duration-500">
                                     
@@ -45,7 +46,7 @@ export default function Movies({IMAGE_BASE_URL, item, title}) {
 
                                 </div>
 
-                            </div>
+                            </Link>
 
                             {/* keywords */}
                             <div>

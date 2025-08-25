@@ -1,12 +1,23 @@
 import { ChevronDown, Search } from "lucide-react";
 import { use, useEffect, useState } from "react";
-
+import { useAuth } from "@/context/authContext";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
 
 
 export default function Header({ menuItem, setMenuItem, API_KEY, BASE_URL, setResults, }){
+    const {user} = useAuth();
     const [menuOpen, setMenuOpen] = useState(false);
     const [searching, setSearching] = useState("");
 
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            console.log("Saidooooo");
+        } catch (error) {
+            console.error("Deu b.o  ate aqui: "+error);
+        }
+    }
 
     useEffect(()=>{
         if  ( searching.trim()==='' )  {
@@ -52,14 +63,14 @@ export default function Header({ menuItem, setMenuItem, API_KEY, BASE_URL, setRe
                 <Search size={20}/>
             </div>
 
-            <div className="profile flex flex-1 flex-row items-center justify-between bg-gray-800 gap-2 p-[2px] rounded-full max-w-[150px]">
+            <div onClick={()=>handleLogout()} className="cursor-pointer profile flex flex-1 flex-row items-center justify-between bg-gray-800 gap-2 p-[2px] rounded-full max-w-[150px]">
                 <div className="flex flex-1 min-w-10">
-                    <img className="object-cover rounded-full"  src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-1061959920.jpg?*" alt="foto do the rock"/>
+                    <img className="object-cover rounded-full"  src={user.photoURL?user.photoURL:`https://hips.hearstapps.com/hmg-prod/images/gettyimages-1061959920.jpg?*`} alt="foto do the rock"/>
                 </div>
                 {/* <UserCircle size={35}/> */}
                 <div className="flex flex-1 flex-col mr-2 w-full max-w-[90px] hidden lg:flex">
-                    <h3 className="text-sm truncate">isaqueSangley</h3>
-                    <p className=" text-xs text-gray-400 truncate">Email</p>
+                    <h3 className="text-sm truncate">{user.displayName?.toLowerCase()}</h3>
+                    <p className=" text-xs text-gray-400 truncate">{user.email}</p>
                 </div>
             </div>
         </div>
