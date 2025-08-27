@@ -183,7 +183,7 @@ export default  function DetailsPage({ params }) {
             </div>
 
             {/* detalhes do filme */}
-            <div className="z-2 w-full max-md:px-4 lg:w-[1500px] self-center min-h-screen ">
+            <div className="z-2 w-full px-4 2xl:max-w-[1500px] xl:max-w-[1000px] lg:max-w-[800px] self-center min-h-screen ">
                 <div className="flex flex-col ">
                     <Link href={"/"} className=" backdrop-blur px-4 py-3 w-fit mb-80 mt-10 rounded-3xl">
                         <p className="italic ">
@@ -204,7 +204,7 @@ export default  function DetailsPage({ params }) {
                                         <span key={index} className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-sm border-white-200 border-2">{genre.name}</span>
                                     ))}
                                 </ul>
-                                <button onClick={()=>share()} className="flex bg-white rounded-4xl w-10 h-10 justify-center items-center transition-all duration-500 inset-0 hover:scale-110 focus:scale-85">
+                                <button onClick={()=>share()} className="cursor-pointer flex bg-white rounded-4xl w-10 h-10 justify-center items-center transition-all duration-500 inset-0 hover:scale-110 focus:scale-85">
                                     <FaShare className="p-1" color="black" size={30}/>
                                 </button>
                             </div>
@@ -217,7 +217,7 @@ export default  function DetailsPage({ params }) {
                                 <Swiper
                                     slidesPerView={'auto'}
                                     spaceBetween={12}
-                                    className="w-full swiper-cards"
+                                    className="w-full swiper-cards rounded-xl"
                                 >
 
 
