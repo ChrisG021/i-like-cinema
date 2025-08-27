@@ -1,12 +1,17 @@
 "use client"
-import ColorPicker from "@/components/colorPicker";
-import Header from "@/components/header";
+
 import Loader from "@/components/loader";
 import { Divide, Share2Icon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState,useRef } from "react";
 import { FaShare } from "react-icons/fa";
-
+import { Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { SwiperSlide,Swiper } from "swiper/react";
+import "./styles.css";
+import TabBar from "@/components/tabBar";
 export default function DetailsPage({ params }) {    
   //url base da API TMDB
     const BASE_URL = "https://api.themoviedb.org/3";
@@ -19,8 +24,8 @@ export default function DetailsPage({ params }) {
     const [loading, setLoading] =useState(true);
     const [error, setError] =useState(false);
 
-    const [menuItem, setMenuItem] = useState({value:"movie", name:"Filmes"});
-    const [results, setResults ] = useState([]);
+    // const [menuItem, setMenuItem] = useState({value:"movie", name:"Filmes"});
+    // const [results, setResults ] = useState([]);
     const [casts, setCasts] = useState([]);
 
     const[color, setColor] = useState("");
@@ -164,8 +169,10 @@ export default function DetailsPage({ params }) {
         }
     }
     return (
-        <div className="flex flex-col relative min-h-screen bg-gray-900 text-white flex">
-            <div className="absolute w-full h-[700px] overflow-hidden">
+        <div className="flex flex-col w-full relative min-h-screen bg-gray-900 text-white flex">
+            {/* <div className="absolute w-full h-[700px] overflow-hidden"> */}
+
+            <div className="absolute w-full h-[400px] lg:h-[700px] overflow-hidden">
                 {/* <div className="absolute z-1 w-full fixed">
                     <Header API_KEY={API_KEY} BASE_URL={BASE_URL} menuItem={menuItem} setMenuItem={setMenuItem} setResults={setResults}/>
                 </div> */}
@@ -176,7 +183,7 @@ export default function DetailsPage({ params }) {
             </div>
 
             {/* detalhes do filme */}
-            <div className="z-2  w-[1500px] self-center min-h-screen ">
+            <div className="z-2 w-full max-md:px-4 lg:w-[1500px] self-center min-h-screen ">
                 <div className="flex flex-col ">
                     <Link href={"/"} className=" backdrop-blur px-4 py-3 w-fit mb-80 mt-10 rounded-3xl">
                         <p className="italic ">
@@ -184,10 +191,10 @@ export default function DetailsPage({ params }) {
                             <span className="text-2xl font-bold">cinema</span>
                         </p>
                     </Link>
-
+                    
                     <div className="flex flex-col gap-8">
                         <div className="flex flex-col gap-3">
-                        <h1 className="text-6xl font-bold text-shadow-lg">
+                        <h1 className="text-4xl lg:text-6xl font-bold text-shadow-lg">
                                 {data?.title ||data.name}
                             </h1>
 
@@ -205,52 +212,63 @@ export default function DetailsPage({ params }) {
   
 
                         <div>
+                            {/* full screen */}
                             <ul className="flex flex-row gap-8">
-                                {budget>0&&(
+                                <Swiper
+                                    slidesPerView={'auto'}
+                                    spaceBetween={12}
+                                    className="w-full swiper-cards"
+                                >
 
-                                <div className="relative bg-white/10 px-3  h-[150px] backdrop-blur rounded-3xl flex flex-row items-center justify-center">
+
+                                {budget>0&&(
+                                // <SwiperSlide className="swiper-slide-cards relative bg-white/10 px-3  h-[100px] lg:h-[150px] backdrop-blur rounded-3xl flex flex-row items-center justify-center">
+
+                                <SwiperSlide className="swiper-slide-cards relative bg-white/10 px-3 backdrop-blur rounded-3xl flex flex-row ">
                                     <div className="[writing-mode:vertical-rl] rotate-180">
                                         <span className="text-white/30 font-bold">Orçamento</span>
                                     </div>
                                     <div className="px-10">
                                         <h2 className="self-center text-3xl font-bold text-center ">${formatatedBudget(budget)}</h2>
                                     </div>
-                                </div>
+                                </SwiperSlide>
                             )}
-                                <div className="relative bg-white/10 px-3  h-[150px] backdrop-blur rounded-3xl flex flex-row items-center justify-center">
+                                <SwiperSlide className="swiper-slide-cards relative bg-white/10 px-3 backdrop-blur rounded-3xl flex flex-row ">
                                     <div className="[writing-mode:vertical-rl] rotate-180">
-                                        <span className="text-white/30 font-bold">Estreia</span>
+                                        <span className=" text-white/30 font-bold">Estreia</span>
                                     </div>
                                     <div className="px-8">
                                         <h2 className="self-center text-3xl font-bold">{formattedDate(data.release_date||data.first_air_date)}</h2>
                                     </div>
-                                </div>
+                                </SwiperSlide>
 
-                                <div className="relative bg-white/10 px-3  h-[150px] backdrop-blur rounded-3xl flex flex-row items-center">
+                                <SwiperSlide className="swiper-slide-cards relative bg-white/10 px-3 backdrop-blur rounded-3xl flex flex-row ">
                                     <div className="[writing-mode:vertical-rl] rotate-180">
                                         <span className="text-white/30 font-bold ">{data.runtime?"Tempo":"Temporadas"}</span>
                                     </div>
                                     <div className="px-8">
                                         <h2 className="self-center text-3xl font-bold">{data.runtime||data.number_of_seasons} {data.runtime?"minutos":" Lançadas"} </h2>
                                     </div>
-                                </div>   
+                                </SwiperSlide>   
                                 {data.status&&(
-                                <div className="relative bg-white/10 px-3  h-[150px] backdrop-blur rounded-3xl flex flex-row items-center">
+                                <SwiperSlide className="swiper-slide-cards relative bg-white/10 px-3 backdrop-blur rounded-3xl flex flex-row ">
                                     <div className="[writing-mode:vertical-rl] rotate-180">
                                         <span className="text-white/30 font-bold ">Status</span>
                                     </div>
                                     <div className="px-8">
                                         <h2 className="self-center text-3xl font-bold">{formattedStatus(data.status)}</h2>
                                     </div>
-                                </div>   
-                                )}                              
-                            </ul>
+                                </SwiperSlide>   
+                                )}      
+                                </Swiper>                        
+                            </ul> 
+
                         </div>
                         
                         {/* descricao do filme/serie */}
                         <div className="flex flex-col ">
                             <h2 className="text-2xl text-white/40">Descrição</h2>
-                            <p className="w-[50vw] py-2">
+                            <p className="lg:w-[50vw] py-2">
                                 {data.overview || "Ops! Parece que este filme ainda não possui uma descrição cadastrada.Mas não se preocupe! Mesmo sem sinopse oficial, você ainda pode aproveitar a experiência e descobrir por conta própria o que essa obra tem a oferecer."}
                             </p>
                         </div>
@@ -258,15 +276,15 @@ export default function DetailsPage({ params }) {
                         {/* cast */}
                         <div className="flex flex-col gap-5">
                             <h2 className="text-2xl text-white/40">Atores relevantes</h2>
-                            <div className="flex gap-20">
+                            <div className="max-md:flex-wrap flex gap-5  lg:gap-20 ">
                             {casts.map((cast)=>(
-                                <div className="flex flex-col justify-center items-center gap-1">
+                                <div className="flex flex-col lg:justify-center lg:items-center gap-1  max-md:p-2 max-md:w-[120px] max-md:overflow-hidden lg:p-0">
                                     <div className="rounded-4xl ">
                                         <img src={`${IMAGE_BASE_URL}/${cast.profile_path}`} className="w-[100px] h-[100px] object-cover rounded-full"/>
                                     </div>
-                                    <div>
+                                    <div className="">
                                         <p className="text-center text-md font-semibold">{cast.name}</p>
-                                        <p className="text-center text-sm text-white/30">{cast.character}</p>
+                                        <p className="text-center text-sm text-white/30 truncate">{cast.character}</p>
                                     </div>
                                 </div>
                             ))}
@@ -276,9 +294,11 @@ export default function DetailsPage({ params }) {
 
 
                     </div>
-                </div>
-            </div>
 
+                </div>
+                                    
+            </div>
+            <TabBar/>
         </div>
     );
 }

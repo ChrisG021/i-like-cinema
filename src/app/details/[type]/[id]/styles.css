@@ -1,0 +1,7 @@
+.swiper-slide-cards{
+    display: flex !important;
+    justify-content: space-between;
+    max-width: fit-content;
+    height: 130px !important;
+    align-items: center;
+}

@@ -1,7 +1,7 @@
 import { auth } from "@/firebase";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { Lock, Mail } from "lucide-react";
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import {IoIosClose} from "react-icons/io"
 
@@ -14,6 +14,8 @@ export default function Login(){
     const [email, setEmail] =useState("");
     const [password, setPassword] = useState("");
 
+    const [error, setError] = useState("");
+
     const handleLogin = async () => {
         if(!(email||password)){
             alert("Todos os dados de login são obrigatórios")
@@ -23,7 +25,8 @@ export default function Login(){
             await signInWithEmailAndPassword(auth,email,password);
             console.log("Logado");
         } catch (e) {
-            console.error("Deu b.o no login: "+e);
+            setError(e);
+            console.log("Deu b.o no login: "+e);
         }
     }
 
@@ -38,8 +41,9 @@ export default function Login(){
                 displayName:`${name} ${secondName}`
             });
             console.log("Cadastrado")
-        } catch (error) {
-            console.error("Deu b.o no cadastro: "+error);
+        } catch (e) {
+            setError(e);
+            console.log("Deu b.o no cadastro: "+e);
         }
     }
 
@@ -47,16 +51,32 @@ export default function Login(){
         try {
             await signInWithPopup(auth,GoogleProvider);
             console.log("logado pelo google");
-        } catch (error) {
-            console.error("Deu b.o no google:"+error);
+        } catch (e) {
+            setError(e);
+            console.log("Deu b.o no google:"+e);
         }
     }
+
+    const divRef = useRef(null);
+
+    //
+    useEffect(() => {
+        function handleClickOutside(event) {
+        if (divRef.current && !divRef.current.contains(event.target)) {
+            setError(false); // seta pra false
+        }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
 
     return (
     <>
     <div className="relative w-screen h-screen bg-black flex items-center justify-center bg-gray-900">
             {/* div central */}
-        <div className={`z-1 flex flex-col px-8 py-4 text-white bg-white/20 backdrop-blur w-[600px] transition-all duration-400 ${login?"h-[656px]":"h-[520px]"}  rounded-2xl absolute  bg-[linear-gradient(to_top,#475569,#101828,black_60%)] bg-cover shadow-xl overflow-hidden`}>
+        <div className={`z-1 flex flex-col px-8 py-4 text-white bg-white/20 backdrop-blur max-w-[350px] lg:max-w-[800px] transition-all duration-400 ${login?"h-[656px]":"h-[580px]"}  rounded-2xl absolute  bg-[linear-gradient(to_top,#475569,#101828,black_60%)] bg-cover shadow-xl overflow-hidden`}>
             <div className="flex justify-between mb-15">
                 {/* sign in */}
                 <div className="flex flex-row p-1 bg-gray-800 rounded-4xl shadow-[inset_0_6px_6px_rgba(0,0,0,0.5)]">
@@ -70,15 +90,18 @@ export default function Login(){
                     </div>
 
                 </div>
-                <div className="bg-gray-800 p-1  w-fit rounded-4xl self-center" >
+                <div className="hidden lg:block bg-gray-800 p-1  w-fit rounded-4xl self-center" >
                     <IoIosClose size={30} />
                 </div>
             </div>
 
-            <form className="flex flex-col  ">
+            <form className="flex flex-col gap-2 ">
                 
                 <div className="mb-5">
                     <h2 className="text-2xl font-bold">{login?"Criar conta":"Entrar"}</h2>
+                </div>
+                <div ref={divRef} className={`${error?"":"hidden"} bg-red-400 rounded-4xl transition-all duration-200 border-red-700 border-2  ease-in-out flex flex-col items-center w-full  px-2 py-3 `}>
+                    <h2>{error.message}</h2>
                 </div>
                 <div className="flex flex-col  gap-2">
                     {login&&(

@@ -65,12 +65,12 @@ export default function Header({ menuItem, setMenuItem, API_KEY, BASE_URL, setRe
 
             <div onClick={()=>handleLogout()} className="cursor-pointer profile flex flex-1 flex-row items-center justify-between bg-gray-800 gap-2 p-[2px] rounded-full max-w-[150px]">
                 <div className="flex flex-1 min-w-10">
-                    <img className="object-cover rounded-full"  src={user.photoURL?user.photoURL:`https://hips.hearstapps.com/hmg-prod/images/gettyimages-1061959920.jpg?*`} alt="foto do the rock"/>
+                    <img className="object-cover rounded-full"  src={user?.photoURL?user?.photoURL:`https://hips.hearstapps.com/hmg-prod/images/gettyimages-1061959920.jpg?*`} alt="foto do the rock"/>
                 </div>
                 {/* <UserCircle size={35}/> */}
                 <div className="flex flex-1 flex-col mr-2 w-full max-w-[90px] hidden lg:flex">
-                    <h3 className="text-sm truncate">{user.displayName?.toLowerCase()}</h3>
-                    <p className=" text-xs text-gray-400 truncate">{user.email}</p>
+                    <h3 className="text-sm truncate">{user?.displayName?.toLowerCase()}</h3>
+                    <p className=" text-xs text-gray-400 truncate">{user?.email}</p>
                 </div>
             </div>
         </div>

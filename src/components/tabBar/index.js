@@ -10,7 +10,7 @@ export default function TabBar(){
         </div>
     );
     return(
-        <div className="lg:hidden fixed bottom-0 w-full p-6  z-1 flex justify-between">
+        <div className="lg:hidden fixed bottom-0 w-full p-6  z-5 flex justify-between">
             <div className="p-2 rounded-4xl bg-black/30 backdrop-blur-md flex flex-row gap-3">
                 <MenuItem icon={House} label="" active/>
                 <MenuItem icon={Compass} label=""/>

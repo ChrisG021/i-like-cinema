@@ -7,7 +7,7 @@
 }
 
 .swiper_slide {
-    display: flex;
+    display: flex !important;
     position: relative;
 }
 

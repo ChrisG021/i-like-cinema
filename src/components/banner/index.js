@@ -17,7 +17,7 @@ export default function Banner({BACKDROP_BASE_URL, item}) {
         spaceBetween={30}
         centeredSlides={true}
         autoplay={{
-          delay: 5000,
+          delay: 500000,
           disableOnInteraction: false,
         }}
         navigation={false}
