@@ -3,7 +3,7 @@
 import Loader from "@/components/loader";
 import { Divide, Share2Icon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState,useRef,use } from "react";
 import { FaShare } from "react-icons/fa";
 import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -12,14 +12,14 @@ import 'swiper/css/navigation';
 import { SwiperSlide,Swiper } from "swiper/react";
 import "./styles.css";
 import TabBar from "@/components/tabBar";
-export default function DetailsPage({ params }) {    
+export default  function DetailsPage({ params }) {    
   //url base da API TMDB
     const BASE_URL = "https://api.themoviedb.org/3";
     const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/original';
     const API_KEY = "9f44bb5cb496bc17bb97b5d2b65c7bc6";
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w300';
 
-    const { type, id } = params;
+    const { type, id } =  use(params);
     const [data, setData] = useState(null);
     const [loading, setLoading] =useState(true);
     const [error, setError] =useState(false);
@@ -200,8 +200,8 @@ export default function DetailsPage({ params }) {
 
                             <div className="flex justify-between">
                                 <ul className="flex flex-wrap gap-2 ">
-                                    {data.genres.map( (genre)=>(
-                                        <span className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-sm border-white-200 border-2">{genre.name}</span>
+                                    {data.genres.map( (genre,index)=>(
+                                        <span key={index} className="bg-black/60 backdrop-blur px-3 py-2 rounded-xl text-sm border-white-200 border-2">{genre.name}</span>
                                     ))}
                                 </ul>
                                 <button onClick={()=>share()} className="flex bg-white rounded-4xl w-10 h-10 justify-center items-center transition-all duration-500 inset-0 hover:scale-110 focus:scale-85">
@@ -277,8 +277,8 @@ export default function DetailsPage({ params }) {
                         <div className="flex flex-col gap-5">
                             <h2 className="text-2xl text-white/40">Atores relevantes</h2>
                             <div className="max-md:flex-wrap flex gap-5  lg:gap-20 ">
-                            {casts.map((cast)=>(
-                                <div className="flex flex-col lg:justify-center lg:items-center gap-1  max-md:p-2 max-md:w-[120px] max-md:overflow-hidden lg:p-0">
+                            {casts.map((cast,index)=>(
+                                <div key={index} className="flex flex-col lg:justify-center lg:items-center gap-1  max-md:p-2 max-md:w-[120px] max-md:overflow-hidden lg:p-0">
                                     <div className="rounded-4xl ">
                                         <img src={`${IMAGE_BASE_URL}/${cast.profile_path}`} className="w-[100px] h-[100px] object-cover rounded-full"/>
                                     </div>

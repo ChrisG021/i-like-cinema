@@ -52,7 +52,12 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL, setResults 
             <div className="sidebar-scroll flex flex-col justify-between  overflow-auto p-6 rounded-4xl  bg-gray-800 h-[calc(100vh-80px)] ">
                 <div className="settings flex flex-col gap-8">
                     <header>
-                        <h1 className="px-2">I like cinema</h1>
+                        <Link href={"/"} className=" w-fit ">
+                        <p className="italic ">
+                            <sup className="text-xs">I like </sup>
+                            <span className="text-2xl font-bold">cinema</span>
+                        </p>
+                    </Link>
                     </header>
                     <nav className="flex flex-col gap-4">
                         <ul>
@@ -71,7 +76,7 @@ export default function Sidebar({ BASE_URL, API_KEY, IMAGE_BASE_URL, setResults 
                 </div>
                 <div className="upcoming">
                     { upComingMovies.map((item,index) => (
-                        <Link href={`/details/movie/${item.id}`}>
+                        <Link key={index} href={`/details/movie/${item.id}`}>
                             <UpComingCard item={item} key={item.id}/>
                         </Link>
                     ))}
