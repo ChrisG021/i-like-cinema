@@ -2,7 +2,6 @@
 
 Uma aplicação web para explorar filmes com uma interface moderna e responsiva. Ideal para quem quer descobrir títulos, conferir detalhes e salvar favoritos para assistir depois.
 
-> **Stack:** Next.js • React • CSS/Tailwind (ou CSS Modules) • Vercel
 
 ---
 
@@ -21,7 +20,6 @@ Uma aplicação web para explorar filmes com uma interface moderna e responsiva.
 - 🎛️ Filtros/ordenação (popularidade, avaliação, lançamento)
 - 📱 Layout responsivo (mobile-first)
 
-> Observação: ajuste/complete os itens de acordo com o que já está implementado no projeto.
 
 ---
 
@@ -31,7 +29,7 @@ Uma aplicação web para explorar filmes com uma interface moderna e responsiva.
 - **React** — componentes e estado
 - **Tailwind CSS** (ou CSS Modules) — estilização rápida e consistente
 - **Vercel** — deploy e preview
-- **(Opcional)** The Movie Database (TMDB) API — catálogo de filmes
+- The Movie Database (TMDB) API — catálogo de filmes
 
 ---
 
