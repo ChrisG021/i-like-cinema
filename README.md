@@ -73,6 +73,3 @@ Este projeto está licenciado sob a **MIT License**. Veja o arquivo `LICENSE` pa
 
 **Christophe Guerra**
 
-- GitHub: https://github.com/ChrisG021
-- LinkedIn: (adicione seu link)
-- Email: (adicione seu contato)
